@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -O2 -g -Iinclude -D_POSIX_C_SOURCE=200809L -D_DEFAULT_SOURCE
 LDFLAGS = -pthread
-LDLIBS = -lcrypto -llz4 -luuid
+LDLIBS = -lcrypto -luuid
 
 SRC_COMMON = src/protocol.c src/network.c src/node.c
 OBJ_COMMON = $(SRC_COMMON:.c=.o)
@@ -23,11 +23,11 @@ asan: clean peer superpeer
 
 check-deps:
 	@echo "== check-deps =="
-	@for h in openssl/sha.h lz4.h uuid/uuid.h pthread.h; do \
+	@for h in openssl/sha.h uuid/uuid.h pthread.h; do \
 		if echo "#include <$$h>" | $(CC) -E -x c - -o /dev/null 2>/dev/null; then \
 			echo "  $$h: OK"; \
 		else \
-			echo "  $$h: AUSENTE (instale: sudo apt install libssl-dev liblz4-dev uuid-dev)"; \
+			echo "  $$h: AUSENTE (instale: sudo apt install libssl-dev uuid-dev)"; \
 			exit 1; \
 		fi; \
 	done
